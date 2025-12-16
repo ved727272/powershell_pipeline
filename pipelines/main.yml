@@ -1,0 +1,39 @@
+name: Set-Config-${{ parameters.environment }}
+trigger: none
+
+pool: Default
+
+parameters:
+- name: environment
+  displayName: Select environment
+  type: string
+  values: 
+    - DEV
+    - TEST  # this type of value provide a radio button like option on UI
+    - PROD
+variables:
+- name: storageAccountName
+  value: 'to be decided'    
+
+stages:
+ - stage: SetConfigStage
+   displayName: setting configuration in stage
+   jobs:
+     - job:
+       displayName: 'Set config in container'
+       steps: 
+       - task: PowerShell@2
+         inputs:
+           azureSubscription: '$(SPN)'
+           scriptType: pscore
+           scriptlocation: inlinescript 
+           inlinescript: |
+             if {${{ parameters.environment }}} -eq 'PROD'} {
+               Write-Host "Only leads can deploy apps in client like env"
+               Write-Error "You are not allowed to run this pipeline"
+               }
+               else{
+                 Write-Host "Deployment is successful"}       
+          
+
+           
