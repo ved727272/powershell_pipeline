@@ -29,11 +29,11 @@ stages:
            scriptlocation: inlinescript 
            inlinescript: |
              if {${{ parameters.environment }}} -eq 'PROD'} {
-               Write-Host "Only leads can deploy apps in client like env"
+               Write-Host "Only leads can deploy all apps in client like env"
                Write-Error "You are not allowed to run this pipeline"
                }
                else{
-                 Write-Host "Deployment is successful"}       
+                 Write-Host "Deployment is successful"}      
           
 
            
